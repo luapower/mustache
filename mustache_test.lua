@@ -42,7 +42,7 @@ for file in lfs.dir(dir) do
 		for i, test in ipairs(doc.tests) do
 			if not test_spec(test) then
 				failed = failed + 1
-				os.exit(1)
+				--os.exit(1)
 			end
 			total = total + 1
 		end
