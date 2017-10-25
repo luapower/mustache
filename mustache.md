@@ -16,10 +16,9 @@ Full-spec mustache parser and bytecode-based renderer.
 
 ## Features
 
-  * scoped vars, `a.b.c`
-  * set delimiters, `{{=<% %>=}}`
+  * scoped vars
   * partials with recursion
-  * preserves indentation of sections
+  * preserving indentation for sections and partials
 
 ## API
 
