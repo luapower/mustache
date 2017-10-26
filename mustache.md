@@ -2,8 +2,6 @@
 tagline: logic-less templates
 ---
 
-__NOTE:__ Work-in-progress! Don't touch yet.
-
 ## `local mustache = require'mustache'`
 
 A mustache parser and renderer written in Lua with the aim of producing the
