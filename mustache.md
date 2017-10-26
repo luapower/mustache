@@ -11,35 +11,36 @@ For full syntax of mustache see the
 
 Features:
 
-* syntax:
-  * html-escaped values: `{{var}}`
-  * unescaped values: `{{{var}}}` or `{{& var}}`
-  * sections: `{{#var}} ... {{/var}}`
-  * inverted sections: `{{^var}} ... {{/var}}`
-  * comments: `{{! ... }}`
-  * partials: `{{>name}}`
-  * set delimiters: `{{=<% %>=}}`
-  * scoped vars: `a.b.c` wherever `var` is expected.
-* semantics:
-  * compatible with mustache.js as to what constitutes a non-false value,
-  in particular `''`, `0` and `'0'` are considered false.
-  * compatibile with [cjson] as to what constitutes a list vs hashmap,
-  in particular empty tables are considered lists.
-  * section lambdas and value lambdas.
-* rendering:
-  * passes all mustache.js tests.
-  * preserves the indentation of standalone partials.
-  * escapes `&><"'/`=` like mustache.js.
-  * good error reporting with line and column number information.
+	* syntax:
+		* html-escaped values: `{{var}}`
+		* unescaped values: `{{{var}}}` or `{{& var}}`
+		* sections: `{{#var}} ... {{/var}}`
+		* inverted sections: `{{^var}} ... {{/var}}`
+		* comments: `{{! ... }}`
+		* partials: `{{>name}}`
+		* set delimiters: `{{=<% %>=}}`
+		* scoped vars: `a.b.c` wherever `var` is expected.
+	* semantics:
+		* compatible with mustache.js as to what constitutes a non-false value,
+		in particular `''`, `0` and `'0'` are considered false.
+		* compatibile with [cjson] as to what constitutes a list vs hashmap,
+		in particular empty tables are considered lists.
+		* section lambdas and value lambdas.
+	* rendering:
+		* passes all mustache.js tests.
+		* preserves the indentation of standalone partials.
+		* escapes `&><"'/`=` like mustache.js.
+		* good error reporting with line and column number information.
 
 
 ## API
 
--------------------------------------------------------------------------- --------------------------------------------------------------
-`mustache.render(template, [view], [partials], [write][, d1, d2]) -> s`    render a template
-`mustache.compile(template[, d1, d2]) -> template`                         compile a template to bytecode
-`mustache.dump(program)`                                                   dump bytecode (for debugging)
--------------------------------------------------------------------------- --------------------------------------------------------------
+-------------------------------------------------- --------------------------------------------------------------
+`mustache.render(template, [view], `               render a template
+`[partials], [write][, d1, d2]) -> s`
+`mustache.compile(template[, d1, d2]) -> template` compile a template to bytecode
+`mustache.dump(program)`                           dump bytecode (for debugging)
+-------------------------------------------------- --------------------------------------------------------------
 
 ## API
 
