@@ -47,7 +47,6 @@ Features:
     [print])`
 ------------------------------------------------------------------------------
 
-## API
 
 ### `mustache.render(template, [data], [partials], [write], [d1, d2], [escape_func]) -> s`
 
