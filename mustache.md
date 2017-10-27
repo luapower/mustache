@@ -32,7 +32,7 @@ For full syntax of mustache see the
 * rendering:
 	* passes all mustache.js tests.
 	* preserves the indentation of standalone partials.
-	* escapes `&><"'/`=` like mustache.js.
+	* escapes `&><"'/`=\` like mustache.js.
 * other:
 	* error reporting with line and column number information.
 	* dump tool for debugging compiled templates.
