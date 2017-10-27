@@ -23,8 +23,9 @@ For full syntax of mustache see the
 * semantics:
 	* compatible with mustache.js as to what constitutes a non-false value,
 	in particular `''`, `0` and `'0'` are considered false.
-	* compatibile with [cjson] as to what constitutes a list vs hashmap,
-	in particular empty tables are considered lists.
+	* compatibile with [cjson] as to what is considered an array and what is
+	a hashmap, in particular tables with _only_ positive integer keys
+	(consecutive or not) are considered lists and are iterated.
 	* section lambdas and value lambdas.
 * rendering:
 	* passes all mustache.js tests.
