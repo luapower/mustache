@@ -12,7 +12,7 @@ For full syntax of mustache see the
 ## Features
 
 * syntax:
-	* html-escaped values: `\{\{var\}\}`
+	* html-escaped values: `{{var}}`
 	* unescaped values: `{{{var}}}` or `{{& var}}`
 	* sections: `{{#var}} ... {{/var}}`
 	* inverted sections: `{{^var}} ... {{/var}}`
