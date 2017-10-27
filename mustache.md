@@ -2,7 +2,7 @@
 tagline: logic-less templates
 ---
 
-{{=<% %>=}}
+{{=<%% %%>=}}
 
 ## `local mustache = require'mustache'`
 
