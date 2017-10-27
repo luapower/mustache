@@ -28,12 +28,15 @@ For full syntax of mustache see the
 	* compatibile with [cjson] as to what is considered an array and what is
 	a hashmap, in particular sparse arrays that contain no other keys are
 	seen as lists and their non-nil elements are iterated.
-	* section lambdas and value lambdas.
+	* section lambdas `f(text, render)` and value lambdas `f()` are supported.
 * rendering:
 	* passes all mustache.js tests.
 	* preserves the indentation of standalone partials.
 	* escapes `&><"'/`=` like mustache.js.
-	* good error reporting with line and column number information.
+* other:
+	* error reporting with line and column number information.
+	* dump tool for debugging compiled templates.
+	* text position info for all tokens (can be used for syntax highlighting).
 
 
 ## API
