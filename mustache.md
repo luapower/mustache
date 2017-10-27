@@ -9,7 +9,7 @@ exact same output as mustache.js on the same template + cjson-encoded view.
 For full syntax of mustache see the
 [mustache manual](https://mustache.github.io/mustache.5.html).
 
-Features:
+### Features
 
 * syntax:
 	* html-escaped values: `{{var}}`
