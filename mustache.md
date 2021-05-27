@@ -44,7 +44,7 @@ For full syntax of mustache see the
 -------------------------------------- ---------------------------------------
 `mustache.render(template,             (compile and) render a template
     [view], [partials], [write],
-	 [d1, d2], [escape_func]) -> s`
+    [d1, d2], [escape_func]) -> s`
 
 `mustache.compile(template,            compile a template to bytecode
     [d1, d2]) -> template`
