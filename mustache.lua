@@ -7,34 +7,7 @@ if not ... then require'mustache_test'; return end
 local push = table.insert
 local pop = table.remove
 local _ = string.format
-
---for a string, return a function that given a byte index in the string
---returns the line and column numbers corresponding to that index.
-local function textpos(s)
-	--collect char indices of all the lines in s, incl. the index at #s + 1
-	local t = {}
-	for i in s:gmatch'()[^\r\n]*\r?\n?' do
-		t[#t+1] = i
-	end
-	assert(#t >= 2)
-	return function(i)
-		--do a binary search in t to find the line
-		assert(i > 0 and i <= #s + 1)
-		local min, max = 1, #t
-		while true do
-			local k = math.floor(min + (max - min) / 2)
-			if i >= t[k] then
-				if k == #t or i < t[k+1] then --found it
-					return k, i - t[k] + 1
-				else --look forward
-					min = k
-				end
-			else --look backward
-				max = k
-			end
-		end
-	end
-end
+local textpos = require'glue'.textpos
 
 --raise an error for something that happened at s[i], so that position in
 --file (line, column) can be printed. if i is nil, eof is assumed.
