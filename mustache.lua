@@ -7,7 +7,7 @@ if not ... then require'mustache_test'; return end
 local push = table.insert
 local pop = table.remove
 local _ = string.format
-local textpos = require'glue'.textpos
+local lineinfo = require'glue'.lineinfo
 
 --raise an error for something that happened at s[i], so that position in
 --file (line, column) can be printed. if i is nil, eof is assumed.
@@ -17,8 +17,7 @@ local function raise(s, i, err, ...)
 	local where
 	if s then
 		if i then
-			local pos = textpos(s)
-			local line, col = pos(i)
+			local line, col = lineinfo(s, i)
 			where = _('line %d, col %d', line, col)
 		else
 			where = 'eof'
@@ -213,14 +212,14 @@ local function dump(prog, d1, d2, print) --dump bytecode
 		end
 		return s
 	end
-	local pos = textpos(prog.template)
+	local lineinfo = lineinfo(prog.template)
 	local pc = 1
 	print'  IDX  #  LN:COL  PC  CMD    ARGS'
 	while pc <= #prog do
 		local cmd = prog[pc]
 		local i = prog[pc+1]
 		local j = prog[pc+2]
-		local line, col = pos(i)
+		local line, col = lineinfo(i)
 		local s
 		if cmd == 'text' then
 			s = text(prog[pc+3])
