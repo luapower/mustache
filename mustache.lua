@@ -4,10 +4,13 @@
 
 if not ... then require'mustache_test'; return end
 
+local glue = require'glue'
+
 local push = table.insert
 local pop = table.remove
 local _ = string.format
-local lineinfo = require'glue'.lineinfo
+local lineinfo = glue.lineinfo
+local esc = glue.esc
 
 --raise an error for something that happened at s[i], so that position in
 --file (line, column) can be printed. if i is nil, eof is assumed.
@@ -34,12 +37,6 @@ local function trim(s) --fast trim from glue
 	return from > #s and '' or s:match('.*%S', from)
 end
 
---escape a string so that it can be matched literally inside a pattern.
-local function escape(s) --from glue
-	return s:gsub('%%','%%%%'):gsub('%z','%%z')
-		:gsub('([%^%$%(%)%.%[%]%*%+%-%?])', '%%%1')
-end
-
 --calls parse(i, j, token_type, ...) for each token in s. i and j are such
 --that s:sub(i, j) gives the unparsed token. tokens can be 'text' and 'var'.
 --var tokens get more args: (name, modifier, d1, d2, i1). name is unparsed.
@@ -53,8 +50,8 @@ local function tokenize(s, parse, d1, d2)
 	local patt, patt2
 	local function setpatt()
 		patt = '()\r?\n?()[ \t]*()'..
-			escape(d1)..'([!&#%^/>=]?)().-()'..
-			escape(d2)..'()[ \t]*()\r?\n?()'
+			esc(d1)..'([!&#%^/>=]?)().-()'..
+			esc(d2)..'()[ \t]*()\r?\n?()'
 		--secondary pattern for matching the special case `{{{...}}}`
 		patt2 = d1 == '{{' and d2 == '}}' and
 			'()\r?\n?()[ \t]*(){{({)().-()}}}()[ \t]*()\r?\n?()'
@@ -333,7 +330,7 @@ local function resolve(ctx_stack, var) --find a value in a context stack
 	end
 end
 
-local function render(prog, ctx_stack, getpartial, write, d1, d2, escape)
+local function render(prog, ctx_stack, getpartial, write, d1, d2, esc)
 
 	prog = compile(prog, d1, d2)
 
@@ -352,14 +349,14 @@ local function render(prog, ctx_stack, getpartial, write, d1, d2, escape)
 	local function run_section_lambda(lambda, ti, tj, d1, d2)
 		local text = prog.template:sub(ti, tj)
 		local function render_lambda(text)
-			return render(text, ctx_stack, getpartial, nil, d1, d2, escape)
+			return render(text, ctx_stack, getpartial, nil, d1, d2, esc)
 		end
 		return lambda(text, render_lambda)
 	end
 
 	local function render_lambda_result(val, d1, d2)
 		if type(val) == 'string' and val:find('{{', 1, true) then
-			val = render(val, ctx_stack, getpartial, nil, d1, d2, escape)
+			val = render(val, ctx_stack, getpartial, nil, d1, d2, esc)
 		end
 		return val
 	end
@@ -423,7 +420,7 @@ local function render(prog, ctx_stack, getpartial, write, d1, d2, escape)
 			pc = pc + 4
 			local val = check_value_lambda(resolve(ctx_stack, var))
 			if val ~= nil then
-				out(escape(tostring(val)))
+				out(esc(tostring(val)))
 			end
 		elseif cmd == 'string' then
 			local var = prog[pc+3]
@@ -467,7 +464,7 @@ local function render(prog, ctx_stack, getpartial, write, d1, d2, escape)
 					local spaces = prog.template:sub(i, i1)
 					partial = indent(partial, spaces)
 				end
-				render(partial, ctx_stack, getpartial, write, nil, nil, escape)
+				render(partial, ctx_stack, getpartial, write, nil, nil, esc)
 			end
 		end
 	end
@@ -478,7 +475,7 @@ local function render(prog, ctx_stack, getpartial, write, d1, d2, escape)
 end
 
 local internal_render = render
-local function render(prog, view, getpartial, write, d1, d2, escape)
+local function render(prog, view, getpartial, write, d1, d2, esc)
 	if type(getpartial) == 'table' then --partials table given, build getter
 		local partials = getpartial
 		getpartial = function(name)
@@ -486,8 +483,8 @@ local function render(prog, view, getpartial, write, d1, d2, escape)
 		end
 	end
 	local ctx_stack = {view}
-	escape = escape or escape_html
-	return internal_render(prog, ctx_stack, getpartial, write, d1, d2, escape)
+	esc = esc or escape_html
+	return internal_render(prog, ctx_stack, getpartial, write, d1, d2, esc)
 end
 
 return {
